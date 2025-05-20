@@ -1,1 +1,1 @@
-[Usecase Diagram PDF 다운로드](https://github.com/user-attachments/files/20323211/communication_diagram.pdf)
+[Usecase Diagram PDF 다운로드](https://github.com/user-attachments/files/20326319/communicationD-.-1.drawio.pdf)
