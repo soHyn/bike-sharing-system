@@ -26,8 +26,8 @@ public:
     string getBikeName() const;
     BikeInfo getBikeInfo() const;
 
-    static Bike findBike(const string bikeId);
-    static Bike createBike(const string& bikeId, const string& bikeName);
+    void findBike(const string bikeId);
+    bool createBike(const string& bikeId, const string& bikeName);
 };
 
 enum class Role { ADMIN=0, MEMBER=1, GUEST=2 };
@@ -45,10 +45,14 @@ public:
     User(string userId, string password, string phoneNum, Role role);
 
     string getUserId() const;
-
-    static User createUser(string userId, string password, string phoneNum);
-    static User* findUser(string userId);
-    static bool authenticateUser(string userId, string password);
+    /*createUser
+    * 입력: 유저 아이디, 비밀번호, 전화번호
+    * 출력: void
+    * User 객체의 멤버에 적절한 값 할당
+    * id와 password가 모두 admin이면 ADMIN 자격 부여
+    */
+    void createUser(string userId, string password, string phoneNum);
+    User* authenticateUser(string userId, string password);
     static bool checkAdmin();
     static bool assignBike(const string& userId, const Bike& findBike);
     static vector<BikeInfo> getBikeInfosByUserId(string userId);
@@ -56,16 +60,15 @@ public:
 
 class Session {
 private:
-    string userId;
+    User* userPtr;
 
 public:
     Session(); 
     ~Session();
 
-    void setUserId(string newUserId);
-    static bool createSession(string userId);
+    static bool createSession(User& user);
     static bool removeSession();
-    static string getUserIdFromSession();
+    static User* getUserIdFromSession();
 };
 
 class DataStore {

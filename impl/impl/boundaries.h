@@ -11,14 +11,14 @@
 
 class SignupUI {
 public:
-    void startInterface();
+    void startInterface(string userId, string password, string phoneNum);
     void inputData(string& userId, string& password, string& phoneNum);
     void showResult(string msg);
 };
 
 class LoginUI {
 public:
-    void startInterface();
+    void startInterface(string userId, string password);
     void inputData(string& userId, string& password);
     void showResult(string msg);
 };
@@ -31,16 +31,16 @@ public:
 
 class RegisterBikeUI {
 public:
-    void startInterface();
+    void startInterface(string bikeId, string bikeName);
     void inputData(string& bikeId, string& bikeName);
     void showResult(string msg);
 };
 
 class RentBikeUI {
 public:
-    void startInterface();
+    void startInterface(string bikeId);
     void inputData(string& bikeId, string& bikeName);
-    void showSearchedBike(string bikeName);
+    bool showSearchedBike(string bikeName);
     void showResult(string msg);
     void requestRentBike(Bike bike);
 };

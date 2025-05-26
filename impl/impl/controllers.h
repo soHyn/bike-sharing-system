@@ -9,12 +9,16 @@
 
 class Signup {
 public:
-    static bool registerUser(string userId, string password, string phoneNum);
+    /* registerUser
+    * 입력: 유저 아이디, 비밀번호, 전화번호
+    * 출력: 등록성공여부
+    */
+    bool registerUser(string userId, string password, string phoneNum);
 };
 
 class Login {
 public:
-    static bool login(string userId, string password);
+    bool login(string userId, string password);
 };
 
 class Logout {
@@ -24,18 +28,18 @@ public:
 
 class RegisterBike {
 public:
-    static bool registerBike(string bikeId, string bikeName);
+    bool registerBike(string bikeId, string bikeName);
 };
 
 class RentBike {
 public:
-    static Bike searchBike(string bikeId, string bikeName);
-    static bool rentBike(Bike bike);
+    Bike searchBike(string bikeId);
+    bool rentBike(Bike bike);
 };
 
 class ShowMemberRentHistory {
 public:
-    static vector<BikeInfo> showRentHistory();
+    vector<BikeInfo> showRentHistory();
 };
 
 #endif

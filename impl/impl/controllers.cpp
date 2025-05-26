@@ -10,10 +10,11 @@
 
 using namespace std;
 
-// Control Classes
+//Control Classes
 
 bool Signup::registerUser(string userId, string password, string phoneNum) {
-    User newUser = User::createUser(userId, password, phoneNum);
+    User newUser = User();
+    newUser.createUser(userId, password, phoneNum);
     if (!newUser.getUserId().empty()) { return true; }
 
     return false;
@@ -21,11 +22,11 @@ bool Signup::registerUser(string userId, string password, string phoneNum) {
 
 
 bool Login::login(string userId, string password) {
-    bool isAuthenticated = User::authenticateUser(userId, password);
+    User user = User();
 
-    if (isAuthenticated) { Session::createSession(userId); return true; }
-
-    return false;
+    User* userPtr = user.authenticateUser(userId, password);
+    if (userPtr) { Session::createSession(*userPtr); return true; }
+    else { return false; }
 }
 
 
@@ -35,25 +36,26 @@ void Logout::logout() {
 
 
 bool RegisterBike::registerBike(string bikeId, string bikeName) {
+    Bike bike = Bike();
     if (!User::checkAdmin()) { return false; }
-    if (Bike::createBike(bikeId, bikeName).getBikeId().empty()) { return false; }
+    if (!bike.createBike(bikeId, bikeName)) { return false; }
 
     return true;
 }
 
 /*
 Ã£Áö ¸øÇÏ¸é ºó Bike °´Ã¼ ¹ÝÈ¯*/
-Bike RentBike::searchBike(string bikeId, string bikeName) {
-    Bike searchedBike = Bike::findBike(bikeId);
-    if (searchedBike.getBikeName() != bikeName) { return Bike(); }
+Bike RentBike::searchBike(string bikeId) {
+    Bike searchedBike = Bike(); 
+    searchedBike.findBike(bikeId);
 
     return searchedBike;
 }
 bool RentBike::rentBike(Bike bike) {
     bool isAssigned = false;
-    string userId = Session::getUserIdFromSession();
-    if (userId.empty()) { isAssigned = false; }
-    isAssigned = User::assignBike(userId, bike);
+    User* userPtr = Session::getUserIdFromSession();
+    if (!userPtr) { isAssigned = false; }
+    else { isAssigned = User::assignBike(userPtr->getUserId(), bike); }
 
     return isAssigned;
 }
@@ -62,8 +64,8 @@ bool RentBike::rentBike(Bike bike) {
 vector<BikeInfo> ShowMemberRentHistory::showRentHistory() {
     vector<BikeInfo> bikeInfos;
 
-    string userId = Session::getUserIdFromSession();
-    bikeInfos = User::getBikeInfosByUserId(userId);
+    User* userPtr = Session::getUserIdFromSession();
+    bikeInfos = User::getBikeInfosByUserId(userPtr->getUserId());
 
     return bikeInfos;
 }
