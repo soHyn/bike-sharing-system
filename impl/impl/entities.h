@@ -60,8 +60,9 @@ private:
 
 public:
     Session(); 
-    ~Session() {}
+    ~Session();
 
+    void setUserId(string newUserId);
     static bool createSession(string userId);
     static bool removeSession();
     static string getUserIdFromSession();
