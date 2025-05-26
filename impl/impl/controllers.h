@@ -30,7 +30,7 @@ public:
 class RentBike {
 public:
     static Bike searchBike(string bikeId, string bikeName);
-    bool rentBike(Bike bike);
+    static bool rentBike(Bike bike);
 };
 
 class ShowMemberRentHistory {

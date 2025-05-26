@@ -30,7 +30,7 @@ public:
     static Bike createBike(const string& bikeId, const string& bikeName);
 };
 
-enum Role { ADMIN, MEMBER, GUEST };
+enum class Role { ADMIN=0, MEMBER=1, GUEST=2 };
 
 class User {
 private:
@@ -47,7 +47,7 @@ public:
     string getUserId() const;
 
     static User createUser(string userId, string password, string phoneNum);
-    static User findUser(string userId);
+    static User* findUser(string userId);
     static bool authenticateUser(string userId, string password);
     static bool checkAdmin();
     static bool assignBike(const string& userId, const Bike& findBike);
@@ -67,5 +67,13 @@ public:
     static bool removeSession();
     static string getUserIdFromSession();
 };
+
+class DataStore {
+public:
+    static map<string, User> userRepository;
+    static map<string, Bike> bikeRepository;
+    static Session currentSession;
+};
+
 
 #endif // !ENTITIES_H

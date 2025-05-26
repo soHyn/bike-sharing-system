@@ -40,7 +40,9 @@ class RentBikeUI {
 public:
     void startInterface();
     void inputData(string& bikeId, string& bikeName);
+    void showSearchedBike(string bikeName);
     void showResult(string msg);
+    void requestRentBike(Bike bike);
 };
 
 class ShowMemberRentHistoryUI {
