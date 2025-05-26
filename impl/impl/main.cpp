@@ -27,10 +27,6 @@ void program_exit();
 ofstream out_fp;
 ifstream in_fp;
 
-map<string, User> DataStore::userRepository;
-map<string, Bike> DataStore::bikeRepository;
-Session DataStore::currentSession;
-
 int main()
 {
     // 파일 입출력을 위한 초기화

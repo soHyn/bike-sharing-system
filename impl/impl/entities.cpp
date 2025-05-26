@@ -11,6 +11,7 @@
 using namespace std;
 
 // Entity Classes
+
 DataStore dataStore;
 
 /*
@@ -22,6 +23,7 @@ Bike::Bike(const string& id, const string& name) : bikeId(id), bikeName(name) {}
 string Bike::getBikeId() const { return bikeId; } 
 string Bike::getBikeName() const { return bikeName; }
 BikeInfo Bike::getBikeInfo() const { return { bikeId, bikeName }; }
+
 
 /*
     * bikeId·Î bike °´Ã¼ Å½»ö ÈÄ ¹ÝÈ¯
@@ -68,7 +70,6 @@ void User::createUser(string userId, string password, string phoneNum) {
 
     dataStore.userRepository.emplace(userId, *this);
 
-
     return;
 }
 
@@ -93,26 +94,23 @@ User* User::authenticateUser(string userId, string password) {
 }
 
 bool User::checkAdmin() {
-    User* userPtr = Session::getUserIdFromSession();
-    if (!userPtr) { cout << "login please" << "\n"; return false; }
-    else if (userPtr->role == Role::ADMIN) { return true; }
+    if (!this) { cout << "login please" << "\n"; return false; }
+    else if (this->role == Role::ADMIN) { return true; }
     else { cout << "Only for admin." << "\n"; return false; }
 }
 
 bool User::assignBike(const string& userId, const Bike& findBike) {
-    User* userPtr = Session::getUserIdFromSession();
-    if (userPtr) { userPtr->bikes.insert(userPtr->bikes.begin(), findBike); return true; }
+    if (this) { this->bikes.insert(this->bikes.begin(), findBike); return true; }
 
     return false;
 }
 
 vector<BikeInfo> User::getBikeInfosByUserId(string userId) {
-    User* userPtr = Session::getUserIdFromSession();
     vector<BikeInfo> bikeInfos;
 
-    if (!userPtr) { return {}; }
+    if (!this) { return {}; }
 
-    for (const Bike& bike : userPtr->bikes) {
+    for (const Bike& bike : this->bikes) {
         bikeInfos.emplace_back(bike.getBikeInfo());
     }
 
@@ -126,17 +124,17 @@ Session::Session() : userPtr(nullptr) {}
 Session::~Session() {}
 
 bool Session::createSession(User& user) {
-    DataStore::currentSession.userPtr = &user;
+    dataStore.currentSession.userPtr = &user;
 
     return true;
 }
 
 bool Session::removeSession() {
-    DataStore::currentSession.userPtr = nullptr;
+    dataStore.currentSession.userPtr = nullptr;
 
     return true;
 }
 
 User* Session::getUserIdFromSession() {
-    return DataStore::currentSession.userPtr;
+    return dataStore.currentSession.userPtr;
 }

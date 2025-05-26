@@ -23,21 +23,26 @@ bool Signup::registerUser(string userId, string password, string phoneNum) {
 
 bool Login::login(string userId, string password) {
     User user = User();
+    Session session;
 
     User* userPtr = user.authenticateUser(userId, password);
-    if (userPtr) { Session::createSession(*userPtr); return true; }
+    if (userPtr) { session.createSession(*userPtr); return true; }
     else { return false; }
 }
 
 
 void Logout::logout() {
-    DataStore::currentSession.removeSession();
+    DataStore datastore;
+    datastore.currentSession.removeSession();
 }
 
 
 bool RegisterBike::registerBike(string bikeId, string bikeName) {
     Bike bike = Bike();
-    if (!User::checkAdmin()) { return false; }
+    Session session;
+
+    User* userPtr = session.getUserIdFromSession();
+    if (!userPtr->checkAdmin()) { return false; }
     if (!bike.createBike(bikeId, bikeName)) { return false; }
 
     return true;
@@ -53,9 +58,11 @@ Bike RentBike::searchBike(string bikeId) {
 }
 bool RentBike::rentBike(Bike bike) {
     bool isAssigned = false;
-    User* userPtr = Session::getUserIdFromSession();
+    Session session;
+
+    User* userPtr = session.getUserIdFromSession();
     if (!userPtr) { isAssigned = false; }
-    else { isAssigned = User::assignBike(userPtr->getUserId(), bike); }
+    else { isAssigned = userPtr->assignBike(userPtr->getUserId(), bike); }
 
     return isAssigned;
 }
@@ -63,9 +70,10 @@ bool RentBike::rentBike(Bike bike) {
 
 vector<BikeInfo> ShowMemberRentHistory::showRentHistory() {
     vector<BikeInfo> bikeInfos;
+    Session session;
 
-    User* userPtr = Session::getUserIdFromSession();
-    bikeInfos = User::getBikeInfosByUserId(userPtr->getUserId());
+    User* userPtr = session.getUserIdFromSession();
+    bikeInfos = userPtr->getBikeInfosByUserId(userPtr->getUserId());
 
     return bikeInfos;
 }

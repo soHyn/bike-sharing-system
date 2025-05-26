@@ -79,8 +79,10 @@ void LoginUI::showResult(string msg) { cout << msg << "\n"; return; }
 LogoutUI
 */
 void LogoutUI::requestLogout() {
+    DataStore dataStore;
     string msg;
-    User* userPtr = DataStore::currentSession.getUserIdFromSession();
+    Session session;
+    User* userPtr = dataStore.currentSession.getUserIdFromSession();
 
     if (!userPtr) {
         msg = "Please login first!";
@@ -88,7 +90,7 @@ void LogoutUI::requestLogout() {
         return;
     }
 
-    if (Session::removeSession()) {
+    if (session.removeSession()) {
         msg = "> " + userPtr->getUserId();
     }
     else {
@@ -182,9 +184,10 @@ void RentBikeUI::showResult(string msg) { cout << msg << "\n"; return; }
 * ShowMemberRentHistoryUI
 */
 void ShowMemberRentHistoryUI::requestShowRentHistory() {
+    DataStore dataStore;
     ShowMemberRentHistory showMemberRentHistory;
     string msg;
-    if (!DataStore::currentSession.getUserIdFromSession()) {
+    if (!dataStore.currentSession.getUserIdFromSession()) {
         msg = "Please login first!";
         showResult({}, msg);
         return;

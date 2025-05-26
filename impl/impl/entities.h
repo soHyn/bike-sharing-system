@@ -53,9 +53,9 @@ public:
     */
     void createUser(string userId, string password, string phoneNum);
     User* authenticateUser(string userId, string password);
-    static bool checkAdmin();
-    static bool assignBike(const string& userId, const Bike& findBike);
-    static vector<BikeInfo> getBikeInfosByUserId(string userId);
+    bool checkAdmin();
+    bool assignBike(const string& userId, const Bike& findBike);
+    vector<BikeInfo> getBikeInfosByUserId(string userId);
 };
 
 class Session {
@@ -66,17 +66,16 @@ public:
     Session(); 
     ~Session();
 
-    static bool createSession(User& user);
-    static bool removeSession();
-    static User* getUserIdFromSession();
+    bool createSession(User& user);
+    bool removeSession();
+    User* getUserIdFromSession();
 };
 
 class DataStore {
 public:
-    static map<string, User> userRepository;
-    static map<string, Bike> bikeRepository;
-    static Session currentSession;
+    map<string, User> userRepository;
+    map<string, Bike> bikeRepository;
+    Session currentSession;
 };
-
 
 #endif // !ENTITIES_H
