@@ -148,10 +148,21 @@ class DataStore {
 public:
     /*USer 객체 저장소*/
     map<string, User> userRepository;
+
     /*Bike 객체 저장소*/
     map<string, Bike> bikeRepository;
+
     /*현재 Session을 사용하고 있는 유저 저장*/
     Session currentSession;
+
+    /*싱글톤 패턴으로 객체 접근점 제공
+    */
+    static DataStore& getInstance() {
+        static DataStore instance;
+        return instance;
+    }
+private:
+    DataStore() = default;
 };
 
 #endif // !ENTITIES_H

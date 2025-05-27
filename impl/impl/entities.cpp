@@ -12,8 +12,6 @@ using namespace std;
 
 // Entity Classes
 
-DataStore dataStore;
-
 /*
 Bike
 */
@@ -30,6 +28,7 @@ BikeInfo Bike::getBikeInfo() const { return { bikeId, bikeName }; }
     * 탐색 실패 시 빈 BIke 생성 후 반환
     */
 void Bike::findBike(const string bikeId) {
+    DataStore& dataStore = DataStore::getInstance();
     auto iter = dataStore.bikeRepository.find(bikeId);
     if (iter != dataStore.bikeRepository.end()) {
         //찾은 경우
@@ -44,6 +43,7 @@ void Bike::findBike(const string bikeId) {
 /*bikeId, bikeName으로 bike 객체 생성
 */
 bool Bike::createBike(const string& bikeId, const string& bikeName) {
+    DataStore& dataStore = DataStore::getInstance();
     if (bikeId.empty()) { return false; }
     this->bikeId = bikeId; this->bikeName = bikeName;
     dataStore.bikeRepository.emplace(bikeId, *this);
@@ -61,6 +61,7 @@ string User::getUserId() const { return userId; }
 
 void User::createUser(string userId, string password, string phoneNum) {
     Role role = Role::MEMBER;
+    DataStore& dataStore = DataStore::getInstance();
 
     if (userId == "admin" && password == "admin") { role = Role::ADMIN; }
     this->userId = userId;
@@ -76,6 +77,7 @@ void User::createUser(string userId, string password, string phoneNum) {
 User* User::authenticateUser(string userId, string password) {
     User* findUserPtr = nullptr;
     bool isAuthenticated = false;
+    DataStore& dataStore = DataStore::getInstance();
     
     auto iter = dataStore.userRepository.find(userId);
     if (iter != dataStore.userRepository.end()) {
@@ -124,17 +126,20 @@ Session::Session() : userPtr(nullptr) {}
 Session::~Session() {}
 
 bool Session::createSession(User& user) {
+    DataStore& dataStore = DataStore::getInstance();
     dataStore.currentSession.userPtr = &user;
 
     return true;
 }
 
 bool Session::removeSession() {
+    DataStore& dataStore = DataStore::getInstance();
     dataStore.currentSession.userPtr = nullptr;
 
     return true;
 }
 
 User* Session::getUserIdFromSession() {
+    DataStore& dataStore = DataStore::getInstance();
     return dataStore.currentSession.userPtr;
 }

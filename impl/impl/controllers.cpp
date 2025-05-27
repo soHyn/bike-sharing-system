@@ -32,8 +32,8 @@ bool Login::login(string userId, string password) {
 
 
 void Logout::logout() {
-    DataStore datastore;
-    datastore.currentSession.removeSession();
+    DataStore& dataStore = DataStore::getInstance();
+    dataStore.currentSession.removeSession();
 }
 
 

@@ -79,7 +79,7 @@ void LoginUI::showResult(string msg) { cout << msg << "\n"; return; }
 LogoutUI
 */
 void LogoutUI::requestLogout() {
-    DataStore dataStore;
+    DataStore& dataStore = DataStore::getInstance();
     string msg;
     Session session;
     User* userPtr = dataStore.currentSession.getUserIdFromSession();
@@ -184,7 +184,7 @@ void RentBikeUI::showResult(string msg) { cout << msg << "\n"; return; }
 * ShowMemberRentHistoryUI
 */
 void ShowMemberRentHistoryUI::requestShowRentHistory() {
-    DataStore dataStore;
+    DataStore& dataStore = DataStore::getInstance();
     ShowMemberRentHistory showMemberRentHistory;
     string msg;
     if (!dataStore.currentSession.getUserIdFromSession()) {
