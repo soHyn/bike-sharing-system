@@ -144,6 +144,9 @@ public:
     User* getUserIdFromSession();
 };
 
+/*DataStore 클래스
+객체를 저장하는 저장소 클래스이다
+*/
 class DataStore {
 public:
     /*USer 객체 저장소*/
@@ -162,6 +165,7 @@ public:
         return instance;
     }
 private:
+    /*생성자*/
     DataStore() = default;
 };
 
